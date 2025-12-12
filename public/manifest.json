@@ -1,6 +1,7 @@
 {
-  "short_name": "ecotracker",
-  "name": "ecotracker",
+  "short_name": "EcoTracker",
+  "name": "EcoTracker - Track Your Carbon Footprint",
+  "description": "Track and reduce your carbon footprint with AI-powered insights",
   "icons": [
     {
       "src": "favicon.ico",
@@ -10,6 +11,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#22c55e",
   "background_color": "#ffffff"
 }

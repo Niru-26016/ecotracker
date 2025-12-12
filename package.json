@@ -2,32 +2,7 @@
   "name": "ecotracker",
   "version": "0.1.0",
   "private": true,
-  "rocketCritical": {
-    "dependencies": [
-      "@dhiwise/component-tagger",
-      "react",
-      "react-dom",
-      "@reduxjs/toolkit",
-      "redux",
-      "react-router-dom"
-    ],
-    "devDependencies": [
-      "@vitejs/plugin-react",
-      "vite",
-      "vite-tsconfig-paths",
-      "tailwindcss",
-      "autoprefixer",
-      "postcss"
-    ],
-    "scripts": [
-      "start",
-      "build",
-      "serve"
-    ],
-    "warning": "🚨 CRITICAL: DO NOT REMOVE OR MODIFY ABOVE DEPENDENCIES - Required for app functionality"
-  },
   "dependencies": {
-    "@dhiwise/component-tagger": "^1.0.10",
     "@radix-ui/react-slot": "^1.2.3",
     "@reduxjs/toolkit": "^2.6.1",
     "@tailwindcss/forms": "^0.5.7",
@@ -39,7 +14,6 @@
     "clsx": "^2.1.1",
     "d3": "^7.9.0",
     "date-fns": "^4.1.0",
-    "dotenv": "^16.0.1",
     "framer-motion": "^10.16.4",
     "lucide-react": "^0.484.0",
     "react": "^18.2.0",
@@ -57,7 +31,7 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "vite build --sourcemap",
+    "build": "vite build",
     "serve": "vite preview"
   },
   "eslintConfig": {

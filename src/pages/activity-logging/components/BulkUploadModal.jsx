@@ -40,13 +40,14 @@ const BulkUploadModal = ({ isOpen, onClose, onUpload }) => {
     setTimeout(() => {
       clearInterval(progressInterval);
       setUploadProgress(100);
-      
+
       // Mock processed data
       const mockData = [
         { category: 'transportation', vehicleType: 'car_gasoline', distance: 25.5, emissions: 12.3 },
         { category: 'energy', energyType: 'electricity', consumption: 150, emissions: 45.2 },
-        { category: 'consumption', category: 'food_meat', quantity: 2, emissions: 8.7 }
+        { category: 'consumption', itemCategory: 'food_meat', quantity: 2, emissions: 8.7 }
       ];
+
 
       setTimeout(() => {
         onUpload(mockData);
@@ -123,7 +124,7 @@ consumption,,,,,food_meat,2,Beef steaks`;
                   <span className="text-sm text-muted-foreground">{uploadProgress}%</span>
                 </div>
                 <div className="w-full bg-muted rounded-full h-2">
-                  <div 
+                  <div
                     className="bg-primary h-2 rounded-full transition-all duration-300"
                     style={{ width: `${uploadProgress}%` }}
                   />
@@ -156,7 +157,7 @@ consumption,,,,,food_meat,2,Beef steaks`;
             >
               Download Template
             </Button>
-            
+
             <Button
               variant="default"
               fullWidth

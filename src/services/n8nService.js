@@ -6,9 +6,13 @@
 
 class N8nService {
   constructor() {
-    this.webhookUrl = import.meta.env?.VITE_N8N_WEBHOOK_URL || 'https://endless-heron-renewed.ngrok-free.app/webhook/03a61427-ab00-47f6-aa65-2af21d548e42/chat';
+    this.webhookUrl = import.meta.env?.VITE_N8N_WEBHOOK_URL;
+    if (!this.webhookUrl) {
+      console.warn('N8nService: VITE_N8N_WEBHOOK_URL is not configured. AI chat features will be disabled.');
+    }
     this.isProcessing = false;
   }
+
 
   /**
    * Send natural language query to n8n workflow
@@ -42,10 +46,10 @@ class N8nService {
       }
 
       const data = await response?.json();
-      
+
       // Parse the structured output from n8n workflow
       return this.parseN8nResponse(data);
-      
+
     } catch (error) {
       console.error('n8n Service Error:', error);
       throw new Error(`Failed to analyze emissions: ${error.message}`);
@@ -63,7 +67,7 @@ class N8nService {
     try {
       // Handle different response formats from n8n
       const output = data?.output || data;
-      
+
       const emissionData = {
         transport: output?.transport || null,
         food: output?.food || null,
