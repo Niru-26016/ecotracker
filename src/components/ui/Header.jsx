@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Icon from '../AppIcon';
 import Button from './Button';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const Header = ({ className = '' }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { theme, toggleTheme, isDark } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [workflowStatus, setWorkflowStatus] = useState('idle');
   const [dataSyncStatus, setDataSyncStatus] = useState('synced');
@@ -100,11 +102,10 @@ const Header = ({ className = '' }) => {
               <button
                 key={item?.path}
                 onClick={() => handleNavigation(item?.path)}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-environmental ${
-                  isActive
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-environmental ${isActive
                     ? 'bg-primary text-primary-foreground'
                     : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                }`}
+                  }`}
                 title={item?.tooltip}
               >
                 <Icon name={item?.icon} size={18} />
@@ -118,27 +119,39 @@ const Header = ({ className = '' }) => {
         <div className="flex items-center space-x-4">
           {/* Workflow Status */}
           <div className="hidden lg:flex items-center space-x-2">
-            <div className={`w-2 h-2 rounded-full ${
-              workflowStatus === 'active' ? 'bg-success animate-pulse-soft' :
-              workflowStatus === 'processing'? 'bg-warning animate-pulse-soft' : 'bg-muted-foreground'
-            }`} />
+            <div className={`w-2 h-2 rounded-full ${workflowStatus === 'active' ? 'bg-success animate-pulse-soft' :
+                workflowStatus === 'processing' ? 'bg-warning animate-pulse-soft' : 'bg-muted-foreground'
+              }`} />
             <span className={`text-xs ${getWorkflowStatusColor()}`}>
               {workflowStatus === 'active' ? 'Workflow Active' :
-               workflowStatus === 'processing'? 'Processing' : 'Workflow Idle'}
+                workflowStatus === 'processing' ? 'Processing' : 'Workflow Idle'}
             </span>
           </div>
 
           {/* Data Sync Status */}
           <div className="hidden lg:flex items-center space-x-1">
-            <Icon 
-              name={dataSyncStatus === 'synced' ? 'CheckCircle' : 'AlertCircle'} 
-              size={16} 
+            <Icon
+              name={dataSyncStatus === 'synced' ? 'CheckCircle' : 'AlertCircle'}
+              size={16}
               className={getSyncStatusColor()}
             />
             <span className={`text-xs ${getSyncStatusColor()}`}>
               {dataSyncStatus === 'synced' ? 'Synced' : 'Syncing'}
             </span>
           </div>
+
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="hidden md:flex items-center justify-center w-9 h-9 rounded-lg bg-muted hover:bg-muted/80 transition-all duration-200 hover:scale-105"
+            title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            <Icon
+              name={isDark ? 'Sun' : 'Moon'}
+              size={18}
+              className="text-foreground transition-transform duration-300"
+            />
+          </button>
 
           {/* Settings - Desktop */}
           <div className="hidden md:block">
@@ -173,46 +186,52 @@ const Header = ({ className = '' }) => {
                 <button
                   key={item?.path}
                   onClick={() => handleNavigation(item?.path)}
-                  className={`w-full flex items-center space-x-3 px-3 py-3 rounded-lg text-sm font-medium transition-environmental ${
-                    isActive
+                  className={`w-full flex items-center space-x-3 px-3 py-3 rounded-lg text-sm font-medium transition-environmental ${isActive
                       ? 'bg-primary text-primary-foreground'
                       : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                  }`}
+                    }`}
                 >
                   <Icon name={item?.icon} size={20} />
                   <span>{item?.label}</span>
                 </button>
               );
             })}
-            
+
             {/* Settings in mobile menu */}
             <button
               onClick={() => handleNavigation('/profile-settings')}
-              className={`w-full flex items-center space-x-3 px-3 py-3 rounded-lg text-sm font-medium transition-environmental ${
-                location?.pathname === '/profile-settings' ?'bg-primary text-primary-foreground' :'text-muted-foreground hover:text-foreground hover:bg-muted'
-              }`}
+              className={`w-full flex items-center space-x-3 px-3 py-3 rounded-lg text-sm font-medium transition-environmental ${location?.pathname === '/profile-settings' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                }`}
             >
               <Icon name="Settings" size={20} />
               <span>Settings</span>
             </button>
 
+            {/* Theme Toggle - Mobile */}
+            <button
+              onClick={toggleTheme}
+              className="w-full flex items-center space-x-3 px-3 py-3 rounded-lg text-sm font-medium transition-environmental text-muted-foreground hover:text-foreground hover:bg-muted"
+            >
+              <Icon name={isDark ? 'Sun' : 'Moon'} size={20} />
+              <span>{isDark ? 'Light Mode' : 'Dark Mode'}</span>
+            </button>
+
             {/* Mobile Status Indicators */}
             <div className="flex items-center justify-between px-3 py-2 mt-4 pt-4 border-t border-border">
               <div className="flex items-center space-x-2">
-                <div className={`w-2 h-2 rounded-full ${
-                  workflowStatus === 'active' ? 'bg-success animate-pulse-soft' :
-                  workflowStatus === 'processing'? 'bg-warning animate-pulse-soft' : 'bg-muted-foreground'
-                }`} />
+                <div className={`w-2 h-2 rounded-full ${workflowStatus === 'active' ? 'bg-success animate-pulse-soft' :
+                    workflowStatus === 'processing' ? 'bg-warning animate-pulse-soft' : 'bg-muted-foreground'
+                  }`} />
                 <span className={`text-xs ${getWorkflowStatusColor()}`}>
                   {workflowStatus === 'active' ? 'Active' :
-                   workflowStatus === 'processing'? 'Processing' : 'Idle'}
+                    workflowStatus === 'processing' ? 'Processing' : 'Idle'}
                 </span>
               </div>
-              
+
               <div className="flex items-center space-x-1">
-                <Icon 
-                  name={dataSyncStatus === 'synced' ? 'CheckCircle' : 'AlertCircle'} 
-                  size={14} 
+                <Icon
+                  name={dataSyncStatus === 'synced' ? 'CheckCircle' : 'AlertCircle'}
+                  size={14}
                   className={getSyncStatusColor()}
                 />
                 <span className={`text-xs ${getSyncStatusColor()}`}>
